@@ -1,0 +1,39 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "../public/",
+  "paginate": false,
+  "nedb": "../data",
+  "authentication": {
+    "secret": "c86dea17b9c78913fc45032cc600aa3d3211a99bf581ca149854fcf41c1a38a3af5e4ff504530b05c5db6dddc1341411ec0b2fbbdbb82fa4484a908b9384bf740a2d06574cedbd2971253a9466febb99c8c5d27e5ecdf1aeea0521e7a2eb571bc6383b305d1f4cbd8dcabb6a750151f7064ec9f07211b4cf3189240ee9787f163c7fcb425123044ec5de92c3cf411aa7de0c00e30833b23b4f872716874d6696e20ad605a6768bb3eec26a42cb531348610ffdb29bb3ee31d7de577654a6d1a3e6014ef977c237f4cb41a20c0a0d53e8b6a1729199478409bb15891ed9a190b66ae75db59a65522023da6af9dde76848213a8050563727874e06e6090635a64f",
+    "strategies": [
+      "jwt"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "type": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "facebook": {
+      "clientID": "125196311403407",
+      "clientSecret": "63fb3805a3ab22c8d41cbc051d46cc9a",
+      "callbackUrl": "http://localhost:3030/auth/facebook/callback",
+      "scope": ["public_profile", "email"],
+        "successRedirect": "/",
+        "failureRedirect": "/fail"
+    },
+    "cookie": {
+      "enabled": true,
+      "name": "feathers-jwt",
+      "httpOnly": false,
+      "secure": true
+    }
+  }
+}
