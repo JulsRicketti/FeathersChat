@@ -11,11 +11,13 @@ module.exports = function () {
 
   // Set up authentication with the secret
   app.configure(authentication(config));
+  // facebook related stuff
   app.configure(oauth2({
     name: 'facebook',
     Strategy: FacebookStrategy
   }));
   app.configure(jwt());
+  // local (that is with my personal login)
   app.configure(local());
 
   // The `authentication` service is used to create a JWT.

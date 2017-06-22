@@ -13,6 +13,7 @@ client.configure(feathers.authentication({
   storage: window.localStorage
 }));
 
+// authenticates facebook user (remember, we do it via requests!)
 client.authenticate()
   .then(()=>{
     console.log('yaaay! Authenticated')
@@ -26,7 +27,7 @@ client.authenticate()
 
 // only works if user is authenticated through facebook
 document.getElementById('login-button').addEventListener('click', (evt) => {
-  
+  // authenticating the local user
   client.authenticate({
     strategy:'local',
     email: 'email@email.com',
@@ -40,7 +41,7 @@ document.getElementById('login-button').addEventListener('click', (evt) => {
 })
 
 document.getElementById('logout-button').addEventListener('click', function(evt){
-
+  // logging all out
   client.logout()
     .then(()=>{
       console.log('logout successfull')
