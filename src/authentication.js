@@ -1,6 +1,8 @@
 const authentication = require('feathers-authentication');
 const jwt = require('feathers-authentication-jwt');
-const local = require('feathers-authentication-local')
+const local = require('feathers-authentication-local');
+const oauth2 = require('feathers-authentication-oauth2');
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 
 module.exports = function () {
@@ -9,6 +11,10 @@ module.exports = function () {
 
   // Set up authentication with the secret
   app.configure(authentication(config));
+  app.configure(oauth2({
+    name: 'facebook',
+    Strategy: FacebookStrategy
+  }));
   app.configure(jwt());
   app.configure(local());
 

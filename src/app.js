@@ -15,11 +15,8 @@ const middleware = require('./middleware');
 const services = require('./services');
 const appHooks = require('./app.hooks');
 
-const authentication = require('feathers-authentication');
-const jwt = require('feathers-authentication-jwt');
-const oauth2 = require('feathers-authentication-oauth2');
-const passport = require('passport');
-const FacebookStrategy = require('passport-facebook').Strategy;
+const authentication = require('./authentication');
+
 
 // const authentication = require('./authentication'); // from the original implementation
 const app = feathers();
@@ -43,23 +40,7 @@ app.configure(socketio());
 
 // Set up our services (see `services/index.js`)
 app.configure(services);
-
-// setup facebook authentication
-app.configure(authentication(app.get('authentication')));
-app.configure(jwt());
-app.configure(oauth2({
-  name: 'facebook',
-  Strategy: FacebookStrategy
-}));
-
-
-app.service('authentication').hooks({
-  before: {
-    create: [
-      authentication.hooks.authenticate(['jwt'])
-    ]
-  }
-});
+app.configure(authentication);
 
 // Configure middleware (see `middleware/index.js`) - always has to be last
 app.configure(middleware);

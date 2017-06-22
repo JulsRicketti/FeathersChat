@@ -1,8 +1,6 @@
 const socket = io();
 const client = feathers();
 
-
-
 // Create the Feathers application with a `socketio` connection
 client.configure(feathers.socketio(socket));
 
@@ -15,15 +13,31 @@ client.configure(feathers.authentication({
   storage: window.localStorage
 }));
 
-
 client.authenticate()
   .then(()=>{
     console.log('yaaay! Authenticated')
+    messages.find().then(data => data.forEach(addMessage));
+    messages.on('created', addMessage);
+
   })
   .catch(()=>{
-    console.log('fudge!')
+    console.log('not authenticated...')
   })
 
+// only works if user is authenticated through facebook
+document.getElementById('login-button').addEventListener('click', (evt) => {
+  
+  client.authenticate({
+    strategy:'local',
+    email: 'email@email.com',
+    password: 'pass'
+  }).then(token => {
+     messages.find().then(data => data.forEach(addMessage));
+    messages.on('created', addMessage);
+
+    console.log('User is logged in');
+  });
+})
 
 document.getElementById('logout-button').addEventListener('click', function(evt){
 
@@ -32,10 +46,11 @@ document.getElementById('logout-button').addEventListener('click', function(evt)
       console.log('logout successfull')
     })
     .catch(()=>{
-
+      console.log('failed to logout...')
     })
 
 })
+
 // Add a new message to the list
 function addMessage(message) {
   const chat = document.querySelector('.chat');
@@ -54,10 +69,10 @@ function addMessage(message) {
 }
 
 document.getElementById('send-message').addEventListener('submit', function(ev) {
+  
   const nameInput = document.querySelector('[name="name"]');
   // This is the message text input field
   const textInput = document.querySelector('[name="text"]');
-
   // Create a new message and then clear the input field
   client.service('messages').create({
     text: textInput.value,
