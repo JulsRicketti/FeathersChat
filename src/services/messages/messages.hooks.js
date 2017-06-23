@@ -11,7 +11,7 @@ module.exports = {
     find: [],
     get: [],
     create: [ processMessage() ],
-    update: [ processMessage() ],
+    update: [ processMessage(), hooks.restrictToOwner({idField: '_id'}) ],
     patch: [ processMessage() ],
     remove: [hooks.restrictToOwner({idField: '_id'})]
   },

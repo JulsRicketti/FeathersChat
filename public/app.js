@@ -52,8 +52,6 @@ document.getElementById('logout-button').addEventListener('click', function(evt)
 
 })
 
-
-
 // Add a new message to the list
 function addMessage(message) {
   const chat = document.querySelector('.chat');
@@ -64,14 +62,28 @@ function addMessage(message) {
         <span class="username font-600">${message.name}</span>
         <p>Sent at: ${message.createdAt}</p>
       </p>
-      <p contenteditable class="message-content font-300">${message.text}</p>
-      <button id="${message._id}">Delete</button>
+      <p contenteditable id="message-area-${message._id}" class="message-content font-300">${message.text}</p>
+      <button id="bt-delete-${message._id}">Delete</button>
     </div>
   </div>`);
 
-  document.getElementById(`${message._id}`).addEventListener('click', function(evt) {
+  document.getElementById(`message-area-${message._id}`).addEventListener('blur', (evt) => {
+    client.service('messages').patch(message._id, {text: evt.target.innerHTML})
+      .then (() => {
+  
+      })
+      .catch((err) => {
+        if (err.name === 'Forbidden') {
+          alert ('You must be the messages creator to edit it!');
+        }
+
+        console.log('Error: ', err);
+      });
+  });
+  
+  document.getElementById(`bt-delete-${message._id}`).addEventListener('click', (evt) => {
     evt.target.disabled = true;
-    client.service('messages').remove(evt.target.id)
+    client.service('messages').remove(message._id)
       .then (()=>{
         const topDiv = evt.target.parentNode.parentNode;
         topDiv.parentNode.removeChild(topDiv);
@@ -89,7 +101,7 @@ function addMessage(message) {
   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
 }
 
-document.getElementById('send-message').addEventListener('submit', function(ev) {
+document.getElementById('send-message').addEventListener('submit', (ev) => {
   
   const nameInput = document.querySelector('[name="name"]');
   // This is the message text input field
