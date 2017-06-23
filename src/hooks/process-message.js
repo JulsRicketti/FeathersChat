@@ -14,7 +14,8 @@ module.exports = function() {
       .substring(0, 800)
       // Do some basic HTML escaping
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
+    
+    const date = new Date();
     // Override the original data
     hook.data = {
       text,
@@ -22,7 +23,7 @@ module.exports = function() {
       // Set the user id
       userId: user._id,
       // Add the current time via `getTime`
-      createdAt: new Date().getTime()
+      createdAt: date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()
     };
 
     // Hooks can either return nothing or a promise

@@ -61,6 +61,7 @@ function addMessage(message) {
     <div class="message-wrapper">
       <p class="message-header">
         <span class="username font-600">${message.name}</span>
+        <p>Sent at: ${message.createdAt}</p>
       </p>
       <p class="message-content font-300">${message.text}</p>
     </div>
