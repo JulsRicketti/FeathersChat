@@ -68,7 +68,7 @@ function addMessage(message) {
   </div>`);
 
   document.getElementById(`message-area-${message._id}`).addEventListener('blur', (evt) => {
-    client.service('messages').patch(message._id, {text: evt.target.innerHTML})
+    client.service('messages').update(message._id, {name: message.name, text: evt.target.innerHTML})
       .then (() => {
   
       })
