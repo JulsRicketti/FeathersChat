@@ -39851,8 +39851,20 @@ var Header = function (_React$Component) {
   }
 
   _createClass(Header, [{
+    key: 'onClickLogout',
+    value: function onClickLogout() {
+      console.log('clicked logout');
+    }
+  }, {
+    key: 'onClickRegularLogin',
+    value: function onClickRegularLogin() {
+      console.log('clicked regular login');
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         'header',
         { className: 'title-bar flex flex-row flex-center' },
@@ -39873,12 +39885,16 @@ var Header = function (_React$Component) {
           ),
           _react2.default.createElement(
             _semanticUiReact.Button,
-            { id: 'login-button', primary: true },
+            { id: 'login-button', primary: true, onClick: function onClick() {
+                return _this2.onClickRegularLogin();
+              } },
             ' Regular Login '
           ),
           _react2.default.createElement(
             _semanticUiReact.Button,
-            { id: 'logout-button', primary: true },
+            { id: 'logout-button', primary: true, onClick: function onClick() {
+                return _this2.onClickLogout();
+              } },
             ' Logout '
           )
         )
