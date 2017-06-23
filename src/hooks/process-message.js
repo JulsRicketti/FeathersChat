@@ -8,6 +8,7 @@ module.exports = function() {
     // The authenticated user
     const user = hook.params.user;
     // The actual message text
+    const name = hook.data.name;
     const text = hook.data.text
       // Messages can't be longer than 400 characters
       .substring(0, 800)
@@ -17,6 +18,7 @@ module.exports = function() {
     // Override the original data
     hook.data = {
       text,
+      name,
       // Set the user id
       userId: user._id,
       // Add the current time via `getTime`

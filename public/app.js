@@ -55,7 +55,7 @@ document.getElementById('logout-button').addEventListener('click', function(evt)
 // Add a new message to the list
 function addMessage(message) {
   const chat = document.querySelector('.chat');
-
+  console.log('message: ', message)
   chat.insertAdjacentHTML('beforeend', `<div class="message flex flex-row">
     <img src="https://placeimg.com/64/64/any" alt="${message.name}" class="avatar">
     <div class="message-wrapper">
@@ -80,7 +80,7 @@ document.getElementById('send-message').addEventListener('submit', function(ev) 
     name: nameInput.value
   }).then(() => {
     textInput.value = '';
-    console.log('message created!')
+    console.log('message created! Name of creator: ', nameInput.value)
   });
   ev.preventDefault();
 });
