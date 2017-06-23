@@ -1,6 +1,7 @@
 'use strict';
 
 const { authenticate } = require('feathers-authentication').hooks;
+const hooks = require('feathers-authentication-hooks');
 const { populate } = require('feathers-hooks-common');
 const processMessage = require('../../hooks/process-message');
 
@@ -12,7 +13,7 @@ module.exports = {
     create: [ processMessage() ],
     update: [ processMessage() ],
     patch: [ processMessage() ],
-    remove: []
+    remove: [hooks.restrictToOwner({idField: '_id'})]
   },
 
   after: {

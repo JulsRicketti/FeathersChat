@@ -33,7 +33,7 @@ document.getElementById('login-button').addEventListener('click', (evt) => {
     email: 'email@email.com',
     password: 'pass'
   }).then(token => {
-     messages.find().then(data => data.forEach(addMessage));
+    messages.find().then(data => data.forEach(addMessage));
     messages.on('created', addMessage);
 
     console.log('User is logged in');
@@ -52,10 +52,11 @@ document.getElementById('logout-button').addEventListener('click', function(evt)
 
 })
 
+
+
 // Add a new message to the list
 function addMessage(message) {
   const chat = document.querySelector('.chat');
-  console.log('message: ', message)
   chat.insertAdjacentHTML('beforeend', `<div class="message flex flex-row">
     <img src="https://placeimg.com/64/64/any" alt="${message.name}" class="avatar">
     <div class="message-wrapper">
@@ -63,10 +64,28 @@ function addMessage(message) {
         <span class="username font-600">${message.name}</span>
         <p>Sent at: ${message.createdAt}</p>
       </p>
-      <p class="message-content font-300">${message.text}</p>
+      <p contenteditable class="message-content font-300">${message.text}</p>
+      <button id="${message._id}">Delete</button>
     </div>
   </div>`);
 
+  document.getElementById(`${message._id}`).addEventListener('click', function(evt) {
+    evt.target.disabled = true;
+    client.service('messages').remove(evt.target.id)
+      .then (()=>{
+        const topDiv = evt.target.parentNode.parentNode;
+        topDiv.parentNode.removeChild(topDiv);
+        evt.target.disabled = false;
+      })
+      .catch((err)=>{
+        if (err.name === 'Forbidden') {
+          alert ('You must be the messages creator to delete it!');
+        }
+        console.log('Error! ', err)
+        evt.target.disabled = false;
+      });
+
+  });
   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
 }
 
@@ -81,7 +100,6 @@ document.getElementById('send-message').addEventListener('submit', function(ev) 
     name: nameInput.value
   }).then(() => {
     textInput.value = '';
-    console.log('message created! Name of creator: ', nameInput.value)
   });
   ev.preventDefault();
 });
