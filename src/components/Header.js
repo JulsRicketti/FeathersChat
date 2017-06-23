@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from 'semantic-ui-react'
 
 export default class Header extends React.Component {
   render() {
@@ -9,8 +10,8 @@ export default class Header extends React.Component {
               alt="Feathers Logo" />
             <span className="title">Chat</span>
             <a id='fb-button' className="button-primary" href='/auth/facebook'> Facebook </a>
-            <button id='login-button' className="button-primary"> Regular Login </button>
-            <button id='logout-button' className="button-primary"> Logout </button>
+            <Button id='login-button' primary> Regular Login </Button>
+            <Button id='logout-button' primary> Logout </Button>
           </div>
         </header>
     )

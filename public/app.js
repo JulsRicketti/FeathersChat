@@ -100,18 +100,3 @@ function addMessage(message) {
   });
   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
 }
-
-document.getElementById('send-message').addEventListener('submit', (ev) => {
-  
-  const nameInput = document.querySelector('[name="name"]');
-  // This is the message text input field
-  const textInput = document.querySelector('[name="text"]');
-  // Create a new message and then clear the input field
-  client.service('messages').create({
-    text: textInput.value,
-    name: nameInput.value
-  }).then(() => {
-    textInput.value = '';
-  });
-  ev.preventDefault();
-});
